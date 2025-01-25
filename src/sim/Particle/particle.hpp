@@ -24,6 +24,11 @@ protected:
   float mass;
   float time;
 
+  Vector2f position;
+
+  float displacement;
+  float prevDisplacement;
+
   std::vector<functionOfTime> forces; // all forces acting upon an object
   Vector2f netForce;
 
@@ -32,14 +37,10 @@ protected:
 private:
   float acceleration;
   float velocity;
-  Vector2f position;
-
-  float displacement;
-  float prevDisplacement;
 
   void calcNetForce();
   float calcAcceleration();
 
   float directionOfVector(const Vector2f &v);
-  void calculatePosition();
+  virtual void calculatePosition();
 };

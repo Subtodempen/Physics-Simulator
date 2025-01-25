@@ -31,9 +31,6 @@ void Particle::implicitEulerIntegration(float &velocity, float &position,
                                         float acceleration, float dt) {
   // integrate a(t) twice to get displacement
   // Uses implicit euler integration
-  if (acceleration == 0)
-    return;
-
   velocity += acceleration * dt;
   position += velocity * dt;
 }
@@ -52,7 +49,6 @@ void Particle::timeStep() {
 void Particle::calculatePosition() {
   float changeInDistance = displacement - prevDisplacement;
 
-  // moves position in same direction of force
   position += netForce.normalized() * changeInDistance;
   prevDisplacement = displacement;
 }

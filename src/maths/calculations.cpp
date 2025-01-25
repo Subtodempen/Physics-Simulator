@@ -1,4 +1,5 @@
 #include "calculations.hpp"
+#include <cmath>
 #include <eigen3/Eigen/src/Core/Matrix.h>
 #include <unordered_map>
 using namespace numerical;
@@ -32,16 +33,23 @@ float numerical::eulerIntegration(float startValueX, float startValueY,
   return eulerIntegration(newX, newY, approxIndex, dy, h);
 }
 
+float numerical::vectorAngle(Vector2f v1, Vector2f v2) {
+  float dot = v1.dot(v2);
+  float mag = v1.norm() * v2.norm();
+
+  return acosf(dot / mag);
+}
+
 std::vector<Triangle> numerical::triangulisePolygon(Matrix2X verticies,
                                                     Vector2f centre) {
   std::vector<Triangle> triangles;
 
-  for (int i = 0; i < verticies.rows() - 1; i++) {
+  for (int i = 0; i < verticies.rows(); i++) {
     Triangle t;
 
     t.B = centre;
     t.A = verticies.row(i);
-    t.C = verticies.row(i + 1);
+    t.C = verticies.row((i + 1) % verticies.rows());
 
     triangles.push_back(t);
   }
@@ -49,6 +57,8 @@ std::vector<Triangle> numerical::triangulisePolygon(Matrix2X verticies,
   return triangles;
 }
 
+// find average verticies
+// or when mass is uniform calcultes the centre point
 Vector2f numerical::calcCentre(Matrix2X verticies) {
   Vector2f vertexSum = Vector2f::Zero();
 
@@ -58,4 +68,20 @@ Vector2f numerical::calcCentre(Matrix2X verticies) {
   }
 
   return vertexSum / verticies.rows();
+}
+
+Triangle::Triangle() {
+  A = Vector2f::Zero();
+  B = Vector2f::Zero();
+  C = Vector2f::Zero();
+}
+
+Matrix2X Triangle::getVertices() {
+  Matrix2X matrix(3, 2);
+
+  matrix.row(0) = A;
+  matrix.row(1) = B;
+  matrix.row(2) = C;
+
+  return matrix;
 }

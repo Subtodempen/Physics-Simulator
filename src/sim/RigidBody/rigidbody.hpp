@@ -1,24 +1,33 @@
 #include "../../maths/calculations.hpp"
 #include "../Particle/particle.hpp"
 
-class RigidBody : protected Particle {
+#include <cmath>
+#include <iostream>
+
+class RigidBody : public Particle {
 public:
   RigidBody(float mass, Matrix2X verticies);
+  void rbTimeStep();
 
   void applyForce(Vector2f f, Vector2f position);
+  float getOrientation();
 
 private:
   Matrix2X verticies;
 
   float angularAcceleration;
   float angularVelocity;
-  float angle;
+  float orientation;
 
-  Vector2f tourqe;
-  float inertialMoment; // leave as global but change in future
+  float tourqe;
+  float inertialMoment;
 
   Vector2f centre;
 
-  void calcInertialMoment();
+  void rotationalTimeStep();
+
+  float calcInertialMoment();
   float calcInertialMoment(Triangle triangle, Vector2f centre);
+
+  float calcAngularAcceleration();
 };

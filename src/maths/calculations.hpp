@@ -1,9 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <eigen3/Eigen/Core>
-#include <eigen3/Eigen/src/Core/Matrix.h>
-#include <eigen3/Eigen/src/Core/util/Constants.h>
+#include <eigen3/Eigen/Dense>
 #include <functional>
 #include <unordered_map>
 
@@ -15,7 +13,10 @@ using functionOfTime = std::function<Vector2f(float)>;
 
 // define a triangle ABC as a set of verticies
 struct Triangle {
+  Triangle();
   Vector2f A, B, C;
+
+  Matrix2X getVertices();
 };
 
 namespace numerical {
@@ -28,6 +29,9 @@ float eulerIntegrationMemo(float startValueX, float startValueY,
                            float h, std::unordered_map<float, float> &memo);
 
 std::vector<Triangle> triangulisePolygon(Matrix2X verticies, Vector2f centre);
+std::vector<Triangle> rightAngleTriangulise(std::vector<Triangle> triangles);
+
+float vectorAngle(Vector2f v1, Vector2f v2);
 
 Vector2f calcCentre(Matrix2X verticies);
 } // namespace numerical

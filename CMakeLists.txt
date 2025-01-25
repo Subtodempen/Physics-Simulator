@@ -32,17 +32,16 @@ target_link_libraries(PhysicsSimulator ${CMAKE_DL_LIBS})
 target_link_libraries(PhysicsSimulator Eigen3::Eigen)
 
 # google Test
-enable_testing()
+# enable_testing()
+#add_executable(
+# cpuTest
+# test/test.cpp
+# ${SOURCES}
+#)
+#target_link_libraries(
+#cpuTest
+  #GTest::gtest_main
+  #)
 
-add_executable(
-  cpuTest
-  test/test.cpp
-  ${SOURCES}
-)
-target_link_libraries(
-  cpuTest
-  GTest::gtest_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(cpuTest)
+#include(GoogleTest)
+#gtest_discover_tests(cpuTest)

@@ -3,6 +3,7 @@
 #include "sim/RigidBody/rigidbody.hpp"
 #include <iostream>
 #include <numbers> // std::numbers
+#include <ostream>
 #include <vector>
 
 int main() {
@@ -36,15 +37,19 @@ int main() {
   */
 
   Matrix2X square(4, 2);
+  square << 0, 0, 0, 3, 3, 3, 3, 0;
 
-  square << 0, 0, 0, 1, 1, 1, 1, 0;
+  RigidBody rb(10, square);
 
-  auto centre = numerical::calcCentre(square);
-  auto tVec = numerical::triangulisePolygon(square, centre);
-
-  for (const Triangle &t : tVec) {
-    std::cout << t.A << ':' << t.B << ':' << t.C << std::endl << std::endl;
+  int i = 0;
+  while (i < 100) {
+    rb.rbTimeStep();
+    rb.applyForce({0, -9.8}, {1.7, 1.0}); // todo make sure in bounds of rb
+    i++;
   }
+
+  std::cout << rb.getOrientation() << std::endl << std::endl;
+  std::cout << rb.getPosition();
 }
 
 /*
